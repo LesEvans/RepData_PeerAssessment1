@@ -124,6 +124,8 @@ The median of the new dataset is 10766 which is very similar to the median of th
 Given that I replaced the missing values with the mean of the steps for each respective interval; this result appears reasonable.
 
 ## Are there differences in activity patterns between weekdays and weekends?
+In the first instance, I needed to use the date to identify the day of the week it indicated.  I added this to the dataframe and then used this to seperate into two factors weekend and weekday.
+
 
 
 ```r
@@ -150,20 +152,7 @@ week$day[day=="Friday"] <- "Weekday"
 detach(week)
 
 com<-aggregate(steps ~ day+interval,data = week,FUN=function(x) mean(x) )
-head(com)
-```
 
-```
-##       day interval   steps
-## 1 Weekday        0 2.25115
-## 2 Weekend        0 0.21462
-## 3 Weekday        5 0.44528
-## 4 Weekend        5 0.04245
-## 5 Weekday       10 0.17317
-## 6 Weekend       10 0.01651
-```
-
-```r
 library(lattice)
 com$interval<-as.numeric(as.character(com$interval))
 xyplot(steps ~ interval | day, data = com,type="l",ylab="Number of Steps",layout=c(1,2))
@@ -172,6 +161,10 @@ xyplot(steps ~ interval | day, data = com,type="l",ylab="Number of Steps",layout
 ![plot of chunk unnamed-chunk-11](figure/unnamed-chunk-11.png) 
 
 
-
-In the first instance, I need to identify the day and then change it to two factors: Weekend and Weekday.  Once this is achieved, I need ot find the mean number of steps taken per interval over the month.
+This plot tells a couple of interesting stories.
+*
+1. It seems that people get up earlier on weekdays and exercise just prior to leaving to work
+2. During weekdays there are some opportunities to exercise during the day.
+3. People tended to get up latter, with many exercising just early day.
+4. People tend to exercise at different times during the weekend.
 
